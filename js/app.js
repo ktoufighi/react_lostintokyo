@@ -1,6 +1,6 @@
-const Highlight = props => (
-  <span className={`relative highlight highlight-${props.color}`}>
-    <span className="relative z-2">{props.children}</span>
+const Highlight = ({ children, color }) => (
+  <span className={`relative highlight highlight-${color}`}>
+    <span className="relative z-2">{children}</span>
   </span>
 )
 
@@ -17,26 +17,43 @@ const Intro = () => (
 
 console.log(menu);
 
+// in ES6 version of JS we won't need to type up props.className
+// we only use our properties directly like so and won't use props anymore
+const NavItem = ({className, href, children, logo}) => (
+  <li className={`mh2-ns f6 f4-l tc ${className}`}>
+    <a className='white no-underline' href={href}>
+    {/* we check to see if NavItem has a logo prop we render our logo if not we render the children prop instead */}
+    {logo ? <img src="../images/logo.svg" className="db center logo" /> : children}</a>
+  </li>
+);
+
 const Nav = () => (
-  <nav>
-    <ul>{menu.map(item => (
-      <li className={item.className}>
-        <a href={item.href}>{item.children}</a>
-      </li>
+  <nav className='pt3 pt4-ns mb4 mb0-ns'>
+    <ul className='list flex flex-wrap flex-nowrap-ns justify-between items-center pa0 ma0'>{menu.map(item => (
+      <NavItem {...item} />
     ))}
     </ul>
   </nav>
+);
+
+const Attraction = ({title, description, image, className}) => (
+  <div className={className}>
+    <h1>{title}</h1>
+    <p>{description}</p>
+    <img src={`../images/${image}`}/>
+  </div>
 );
 
 const App = () => ( < div >
   <div className = "min-vh-100 ph4 flex flex-column" >
     { /* our navigation component */ }
     <Nav />
-    <Intro />s
-  </div>
-
+    <Intro />
+    </div>
     <div className = "flex flex-wrap container" >
-    { /* our attractions list component */ }
+      {attractions.map(attraction =>(
+        <Attraction {...attraction} />
+      ))}
     </div>
   </div>
 );
