@@ -13,11 +13,16 @@ body {
 }
 
 .bg-aqua {
-  background: rgba(0, 255, 255, 0.8);
+  background: rgba(0, 255, 255, 0.6);
 }
 
 .overlay {
   transition: transform 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
+  /* tranform property in css lets you move scale and rotate elements*/
+  /* in this case we are translating it on Y axis moving it out of the
+  frame by 100% of its hight upwards */
+  /* later we control that by using react events listener function*/
+  transform: translateY(-100%);
 }
 
 .highlight {

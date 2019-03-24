@@ -36,13 +36,70 @@ const Nav = () => (
   </nav>
 );
 
-const Attraction = ({title, description, image, className}) => (
-  <div className={className}>
-    <h1>{title}</h1>
-    <p>{description}</p>
-    <img src={`../images/${image}`}/>
+const Overlay = ({showInfo, title, description, link}) => (
+  <div className="absolute w-100 h-100 flex items-center pa3 pa4-ns bg-aqua overlay"
+    style={{
+      transform: showInfo ? 'none' : 'translateY(-100%)'
+    }}
+    >
+    <div>
+      <h1 className="f5 f4-ns mt0 mb2 regular black normal lh-title"><a href={link}>{title}</a></h1>
+      <p className="lh-title lh-copy-ns mv0 black f6 measure-l">{description}</p>
+    </div>
   </div>
-);
+)
+
+// class components give us more advanced functionality
+
+class Attraction extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showInfo: false
+    };
+    // here we tell our method toggleInfo about this by using helper method bind
+    // otherwise setState will not work cause it won't know about this
+    this.toggleInfo = this.toggleInfo.bind(this)
+    this.closeInfo = this.closeInfo.bind(this)
+  }
+
+  // this is our toggle method
+  toggleInfo() {
+    // running setState like this gives us the previousState and props
+    this.setState((prevState, props) => ({
+      // doing this will turn true to false and false to true
+      showInfo: !prevState.showInfo,
+    }));
+  }
+
+  closeInfo() {
+    // run setState the regular way to close the overlay so it does not relay on a previouse state
+    this.setState({
+      showInfo: false,
+    })
+  }
+
+  render() {
+    const {title, description, className, image, link} = this.props
+    const {showInfo} = this.state
+    // same as saying the following
+    // const title = this.props.title
+
+    return (
+      <div
+        className={`ph4 ph5-ns ph0-l mb4 mb5-ns w-100 overflow-hidden pointer attraction ${className}`}
+        onMouseMove={this.toggleInfo}
+        // remove the showInfo on mouseLeave
+        onMouseLeave={this.closeInfo}
+      >
+        <div className="relative">
+          <Overlay {...this.props} {...this.state}/>
+          <img src={`../images/${image}`} className="db" />
+        </div>
+      </div>
+    )
+  }
+}
 
 const App = () => ( < div >
   <div className = "min-vh-100 ph4 flex flex-column" >
