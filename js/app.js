@@ -43,7 +43,7 @@ const Overlay = ({showInfo, title, description, link}) => (
     }}
     >
     <div>
-      <h1 className="f5 f4-ns mt0 mb2 regular black normal lh-title"><a href={link}>{title}</a></h1>
+      <h1 className="f5 f4-ns mt0 mb2 regular black normal lh-title"><a className='black no-underline' href={link}>{title}</a></h1>
       <p className="lh-title lh-copy-ns mv0 black f6 measure-l">{description}</p>
     </div>
   </div>
